@@ -11,7 +11,6 @@ import (
 
 	"github.com/gogf/gf/v2/database/gredis"
 	"github.com/gogf/gf/v2/test/gtest"
-	"github.com/gogf/gf/v2/util/gconv"
 )
 
 func Test_mustMergeOptionToArgs(t *testing.T) {
@@ -21,17 +20,15 @@ func Test_mustMergeOptionToArgs(t *testing.T) {
 			NX:  true,
 			Get: true,
 		})
-		t.Assert(newArgs, []any{"NX", "Get"})
+		t.Assert(newArgs, []any{"NX", "GET"})
 	})
 	gtest.C(t, func(t *gtest.T) {
 		var args []any
 		newArgs := mustMergeOptionToArgs(args, gredis.SetOption{
 			NX:  true,
 			Get: true,
-			TTLOption: gredis.TTLOption{
-				EX: gconv.PtrInt64(60),
-			},
+			EX:  60,
 		})
-		t.Assert(newArgs, []any{"EX", 60, "NX", "Get"})
+		t.Assert(newArgs, []any{"NX", "GET", "EX", 60})
 	})
 }

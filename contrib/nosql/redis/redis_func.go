@@ -7,81 +7,16 @@
 package redis
 
 import (
-	"reflect"
-
-	"github.com/gogf/gf/v2/os/gstructs"
+	"github.com/gogf/gf/v2/frame/g"
 )
 
-func mustMergeOptionToArgs(args []any, option any) []any {
-	if option == nil {
-		return args
-	}
-	var (
-		err        error
-		optionArgs []any
-	)
-	optionArgs, err = convertOptionToArgs(option)
-	if err != nil {
-		panic(err)
-	}
-	return append(args, optionArgs...)
+type Option interface {
+	OptionToArgs() []any
 }
 
-func convertOptionToArgs(option any) ([]any, error) {
-	if option == nil {
-		return nil, nil
+func mustMergeOptionToArgs(args []any, opt Option) []any {
+	if g.IsNil(opt) {
+		return args
 	}
-	var (
-		err       error
-		args      = make([]any, 0)
-		fields    []gstructs.Field
-		subFields []gstructs.Field
-	)
-	fields, err = gstructs.Fields(gstructs.FieldsInput{
-		Pointer:         option,
-		RecursiveOption: gstructs.RecursiveOptionEmbeddedNoTag,
-	})
-	if err != nil {
-		return nil, err
-	}
-	for _, field := range fields {
-		switch field.OriginalKind() {
-		// See SetOption
-		case reflect.Bool:
-			if field.Value.Bool() {
-				args = append(args, field.Name())
-			}
-
-		// See ZRangeOption
-		case reflect.Struct:
-			if field.Value.IsNil() {
-				continue
-			}
-			if !field.IsEmbedded() {
-				args = append(args, field.Name())
-			}
-			subFields, err = gstructs.Fields(gstructs.FieldsInput{
-				Pointer:         option,
-				RecursiveOption: gstructs.RecursiveOptionEmbeddedNoTag,
-			})
-			if err != nil {
-				return nil, err
-			}
-			for _, subField := range subFields {
-				args = append(args, subField.Value.Interface())
-			}
-
-		// See TTLOption
-		default:
-			fieldValue := field.Value.Interface()
-			if field.Value.Kind() == reflect.Pointer {
-				if field.Value.IsNil() {
-					continue
-				}
-				fieldValue = field.Value.Elem().Interface()
-			}
-			args = append(args, field.Name(), fieldValue)
-		}
-	}
-	return args, nil
+	return append(args, opt.OptionToArgs()...)
 }

@@ -12,6 +12,7 @@ package gdb
 import (
 	"context"
 	"database/sql"
+	"github.com/gogf/gf/v2/util/gconv"
 	"time"
 
 	"github.com/gogf/gf/v2/container/garray"
@@ -893,6 +894,10 @@ var (
 func init() {
 	// allDryRun is initialized from environment or command options.
 	allDryRun = gcmd.GetOptWithEnv(commandEnvKeyForDryRun, false).Bool()
+}
+
+func NewCounter(field string, value any) Counter {
+	return Counter{Field: field, Value: gconv.Float64(value)}
 }
 
 // Register registers custom database driver to gdb.

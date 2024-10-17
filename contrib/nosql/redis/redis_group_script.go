@@ -93,7 +93,7 @@ func (r GroupScript) ScriptExists(ctx context.Context, sha1 string, sha1s ...str
 //
 // https://redis.io/commands/script-flush/
 func (r GroupScript) ScriptFlush(ctx context.Context, option ...gredis.ScriptFlushOption) error {
-	var usedOption any
+	var usedOption Option
 	if len(option) > 0 {
 		usedOption = option[0]
 	}

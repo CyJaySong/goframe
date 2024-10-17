@@ -281,6 +281,27 @@ func (t *Time) IsZero() bool {
 	return t.Time.IsZero()
 }
 
+func (t *Time) IsZeroDateTime() bool {
+	if t == nil {
+		return true
+	}
+	return t.Time.IsZero() || t.Format("Y-m-d H:i:s") == "0001-01-01 00:00:00"
+}
+
+func (t *Time) IsZeroDate() bool {
+	if t == nil {
+		return true
+	}
+	return t.Time.IsZero() || t.Format("Y-m-d") == "0001-01-01"
+}
+
+func (t *Time) IsZeroTime() bool {
+	if t == nil {
+		return true
+	}
+	return t.Time.IsZero() || t.Format("H:i:s") == "00:00:00"
+}
+
 // Clone returns a new Time object which is a clone of current time object.
 func (t *Time) Clone() *Time {
 	return New(t.Time)

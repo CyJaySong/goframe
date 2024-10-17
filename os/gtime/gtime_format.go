@@ -226,6 +226,44 @@ func (t *Time) WeeksOfYear() int {
 }
 
 // formatToStdLayout converts the custom format to stdlib layout.
+// DateString  returns date string in the format of `2006-01-02`
+func (t *Time) DateString() string {
+	return t.Format("Y-m-d")
+}
+
+// TimeString  returns date string in the format of `15:04:05`
+func (t *Time) TimeString() string {
+	return t.Format("H:i:s")
+}
+
+// WithOutZeroString  returns date string in the format of `2006-01-02 15:04:05`
+// if IsZero Or Equal "0001-01-01 00:00:00" returns ""
+func (t *Time) WithOutZeroString() string {
+	if t.IsZeroDateTime() {
+		return ""
+	}
+	return t.Format("Y-m-d H:i:s")
+}
+
+// WithOutZeroDateString  returns date string in the format of `2006-01-02`
+// if IsZero Or Equal "0001-01-01" returns ""
+func (t *Time) WithOutZeroDateString() string {
+	if t.IsZeroDate() {
+		return ""
+	}
+	return t.Format("Y-m-d")
+}
+
+// WithOutZeroTimeString  returns date string in the format of `15:04:05`
+// if IsZero Or Equal "00:00:00" returns ""
+func (t *Time) WithOutZeroTimeString() string {
+	if t.IsZeroTime() {
+		return ""
+	}
+	return t.Format("H:i:s")
+}
+
+// formatToStdLayout converts the custom format to stdlib layout.
 func formatToStdLayout(format string) string {
 	b := bytes.NewBuffer(nil)
 	for i := 0; i < len(format); {

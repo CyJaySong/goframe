@@ -298,7 +298,7 @@ func (m *softTimeMaintainer) buildDeleteCondition(
 	case SoftTimeTypeAuto:
 		switch fieldType {
 		case LocalTypeDate, LocalTypeTime, LocalTypeDatetime:
-			return fmt.Sprintf(`%s IS NULL`, quotedName)
+			return fmt.Sprintf(`(%s IS NULL OR %s = '%s')`, quotedName, quotedName, "0001-01-01 00:00:00")
 		case LocalTypeInt, LocalTypeUint, LocalTypeInt64, LocalTypeUint64, LocalTypeBool:
 			return fmt.Sprintf(`%s=0`, quotedName)
 		default:
@@ -307,7 +307,7 @@ func (m *softTimeMaintainer) buildDeleteCondition(
 		}
 
 	case SoftTimeTypeTime:
-		return fmt.Sprintf(`%s IS NULL`, quotedName)
+		return fmt.Sprintf(`(%s IS NULL OR %s = '%s')`, quotedName, quotedName, "0001-01-01 00:00:00")
 
 	default:
 		return fmt.Sprintf(`%s=0`, quotedName)

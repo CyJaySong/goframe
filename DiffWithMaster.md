@@ -14,3 +14,5 @@
 - 6、软删除条件生成支持非空零时
 
 - 7、gtime 添加时间字符串魔法函数
+
+- 8、gtime.Format 废弃标注，gtime.Format与标准库`time.Time`的 Format 方法冲突容易造成生产事故

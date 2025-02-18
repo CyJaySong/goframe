@@ -68,6 +68,7 @@ var (
 
 // Format formats and returns the formatted result with custom `format`.
 // Refer method Layout if you want to follow stdlib layout.
+// Deprecated: Use Layout instead. 与标准库`time.Time`的 Format 方法冲突
 func (t *Time) Format(format string) string {
 	if t == nil {
 		return ""

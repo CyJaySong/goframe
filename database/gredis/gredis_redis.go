@@ -8,7 +8,6 @@ package gredis
 
 import (
 	"context"
-
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -128,4 +127,9 @@ func (r *Redis) Close(ctx context.Context) error {
 		return nil
 	}
 	return r.localAdapter.Close(ctx)
+}
+
+// GetConfig returns the deeply copied Config in the current client.
+func (r *Redis) GetConfig() *Config {
+	return r.config
 }

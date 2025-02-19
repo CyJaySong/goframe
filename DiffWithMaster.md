@@ -12,3 +12,5 @@
     - Run函数运行脚本时，使用EVALSHA运行脚本，如果脚本不存在，则使用EVAL重试并尝试缓存脚本，以提升运行效率
 
 - 6、gtime.Format 废弃标注，gtime.Format与标准库`time.Time`的 Format 方法冲突容易造成生产事故
+
+- 7、Redis 添加 GetConfig()

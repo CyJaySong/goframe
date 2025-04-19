@@ -109,6 +109,9 @@ func (tx *TXCore) Commit() error {
 // Note that it aborts current transaction if it's in a nested transaction procedure,
 // or else it aborts the hole transaction.
 func (tx *TXCore) Rollback() error {
+	if tx.isClosed {
+		return nil
+	}
 	if tx.transactionCount > 0 {
 		tx.transactionCount--
 		_, err := tx.Exec("ROLLBACK TO SAVEPOINT " + tx.transactionKeyForNestedPoint())

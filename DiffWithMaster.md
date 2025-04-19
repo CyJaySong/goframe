@@ -4,3 +4,5 @@
 - 2、gredis Option 构建结构调整
 
 - 3、gdb 增加NewCounter函数
+
+- 4、gdb 事务Rollback时判断事务是否已关闭
